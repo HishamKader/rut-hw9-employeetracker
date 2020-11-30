@@ -148,6 +148,26 @@ function addData() {
                     }
                 )
             })
+        } else if (answer.addOption === "Add Department") {
+            inquirer.prompt([
+                {
+                    name: "name",
+                    type: "input",
+                    message: "Enter Department name"
+                }
+            ]).then(function(answer){
+                connection.query(
+                    "INSERT INTO department SET ?",
+                    {
+                        name: amswer.name
+                    },
+                    function (err) {
+                        if (err) throw err;
+                        console.log(`Added Department, ${answer.name}`);
+                        getUserInput();
+                    }
+                )
+            })
         }
     });
 }
