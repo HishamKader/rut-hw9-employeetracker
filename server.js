@@ -168,6 +168,55 @@ function addData() {
                     }
                 )
             })
+        } else if (answer.addOption === "Exit"){
+            getUserInput();
+        }
+    });
+}
+
+function viewData() {
+    inquirer.prompt([
+        {
+            name: "view",
+            type: "list",
+            message: "Select the data you want to VIEW: ",
+            choices: [
+                "View All Employees",
+                "View All Roles",
+                "View All Departments",
+                "View All Employees, Roles, Departments",
+                "Exit"
+            ]
+        }
+    ]).then(function (answer) {
+        switch (answer.view) {
+            case "View All Employees":
+                connection.query("SELECT * FROM employee", function (err, result) {
+                    console.table(result);
+                    getUserInput();
+                });
+                break;
+            case "View All Roles":
+                connection.query("SELECT * FROM role", function (err, result) {
+                    console.table(result);
+                    getUserInput();
+                });
+                break;
+            case "View All Departments":
+                connection.query("SELECT * FROM department", function (err, result) {
+                    console.table(result);
+                    getUserInput();
+                });
+                break;
+            case "View All Employees, Roles, Departments":
+                connection.query("SELECT e.id, e.first_name, e.last_name, r.title, r.salary, d.name FROM employee e INNER JOIN role r on e.role_id = r.id INNER JOIN department d on r.department_id = d.id ORDER BY d.name;", function (err, result) {
+                    console.table(result);
+                    getUserInput();
+                })
+                break;
+            case "Exit":
+                getUserInput();
+            break;
         }
     });
 }
