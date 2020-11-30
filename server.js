@@ -220,3 +220,45 @@ function viewData() {
         }
     });
 }
+
+function updateData(){
+    inquirer.prompt([
+        {
+            name: "update",
+            type: "list",
+            message: "Select the data you want to UPDATE: ",
+            choices: [
+                "Update Employee Role"
+            ]
+        },
+    ]).then(function(answer){
+        if (answer.update === "Update Employee Role"){
+            inquirer.prompt([
+                {
+                    name: "role_id",
+                    type: "number",
+                    message: "Enter the role id: "
+                 },
+                {
+                   name: "id",
+                   type: "number",
+                   message: "Enter the employee id: "
+                }
+            ]).then(function(answer){
+                con.query("UPDATE employee SET role_id = ? WHERE ?;", [
+                    {
+                        role_id: answer.role_id
+                    },
+                    {
+                        id: answer.id
+                    }
+                ],
+                function(error){
+                    if (error) throw error;
+                    console.log(`Updated employee with id ${answer.id} to role ${answer.role_id}`)
+                    getUserInput();
+                });
+            });
+        }
+    });
+}
