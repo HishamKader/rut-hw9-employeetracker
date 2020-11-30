@@ -262,3 +262,72 @@ function updateData(){
         }
     });
 }
+
+function deleteData(){
+    inquirer.prompt([
+        {
+            name: "delete",
+            type: "list",
+            message: "Select the data to DELETE: ",
+            choices: [
+                "Delete Employee",
+                "Delete Role",
+                "Delete Department"
+            ]
+        }
+    ]).then(function(answer){
+        if (answer.delete === "Delete Employee"){
+            inquirer.prompt([
+                {
+                    name: "id",
+                    type: "number",
+                    message: "Enter Employee ID #: "
+                },
+            ]).then(function(answer){
+                con.query("DELETE FROM employee WHERE ? ",[
+                    {id: answer.id}
+                ], function(error){
+                    if (error) throw error;
+                    console.log(`Employee with id ${answer.id} deleted`);
+                    getUserInput();
+                }
+                )
+            });
+        }
+        else if (answer.delete === "Delete Role"){
+            inquirer.prompt([
+                {
+                    name: "id",
+                    type: "number",
+                    message: "Enter Role ID #: "
+                },
+            ]).then(function(answer){
+                con.query("DELETE FROM role WHERE ? ",[
+                    {id: answer.id}
+                ], function(error){
+                    if (error) throw error;
+                    console.log(`Role with id ${answer.id} deleted`);
+                    getUserInput();
+                });
+            });
+        }
+        else if (answer.delete === "Delete Department"){
+            inquirer.prompt([
+                {
+                    name: "id",
+                    type: "number",
+                    message: "Enter Department ID #: "
+                },
+            ]).then(function(answer){
+                con.query("DELETE FROM department WHERE ? ",[
+                    {id: answer.id}
+                ], function(error){
+                    if (error) throw error;
+                    console.log(`Employee with id ${answer.id} deleted`);
+                    getUserInput();
+                }
+                )
+            });
+        }
+    });
+}
