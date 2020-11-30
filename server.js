@@ -44,15 +44,19 @@ function getUserInput() {
             if (answer.startOptions === "View Data") {
                 viewData();
             }
+            
             else if (answer.startOptions === "Add Data") {
                 addData();
             }
+            
             else if (answer.startOptions === "Update Data") {
                 updateData();
             }
+            
             else if (answer.startOptions === "Delete Data") {
                 deleteData();
             }
+           
             else if (answer.startOptions === "Exit") {
                 process.exit(1);
             }
@@ -89,6 +93,7 @@ function addData() {
                     type: "input",
                     message: "Last Name: "
                 },
+                
                 {
                     name: "role_id",
                     type: "number",
@@ -111,8 +116,38 @@ function addData() {
             })
         } else if (answer.addOption === "Add Role") {
             inquirer.prompt([
+                {
+                    name: "title",
+                    type: "input",
+                    message: "Enter title"
+                },
 
-            ])
+                {
+                    name: "salary",
+                    input: "number",
+                    message: "Enter salary"
+                },
+
+                {
+                    name: "department_id",
+                    type: "number",
+                    message: "Enter Department"
+                }
+            ]).then(function(answer){
+                connection.query(
+                    "INSERT INTO role SET ?",
+                    {
+                        title: answer.title,
+                        salary: answer.salary,
+                        department_id: answer.department_id
+                    },
+                    function (err) {
+                        if (err) throw err;
+                        console.log(`Added role, ${answer.title} at salary ${answer.salary}`);
+                        getUserInput();
+                    }
+                )
+            })
         }
     });
 }
