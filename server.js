@@ -20,7 +20,8 @@ connection.connect((err) => {
     if (err) throw err;
     getUserInput();
 });
-console.log("Welcome to the Employee Tracker DataBase!\n Use the selector below to get started.")
+console.log("Welcome to the Employee Tracker DataBase!\n Use the selector below to get started.");
+
 /*
     getUserInput() uses inquirer to determine if the user wants to simply
     view the database, add to the database, or delete from the database.
@@ -209,7 +210,7 @@ function viewData() {
                 });
                 break;
             case "View All Employees, Roles, Departments":
-                connection.query("SELECT e.id, e.first_name, e.last_name, r.title, r.salary, d.name FROM employee e INNER JOIN role r on e.role_id = r.id INNER JOIN department d on r.department_id = d.id ORDER BY d.name;", function (err, result) {
+                connection.query("SELECT e.id, e.first_name, e.last_name, r.title, r.salary, d.name FROM employee e INNER JOIN role r on e.roles_id = r.id INNER JOIN department d on r.department_id = d.id ORDER BY d.name;", function (err, result) {
                     console.table(result);
                     getUserInput();
                 })
@@ -245,7 +246,7 @@ function updateData(){
                    message: "Enter the employee id: "
                 }
             ]).then(function(answer){
-                con.query("UPDATE employee SET role_id = ? WHERE ?;", [
+                connection.query("UPDATE employee SET role_id = ? WHERE ?;", [
                     {
                         role_id: answer.role_id
                     },
@@ -255,7 +256,7 @@ function updateData(){
                 ],
                 function(error){
                     if (error) throw error;
-                    console.log(`Updated employee with id ${answer.id} to role ${answer.role_id}`)
+                    console.log(`Updated employee with id ${answer.id} to role ${answer.roles_id}`)
                     getUserInput();
                 });
             });
@@ -284,7 +285,7 @@ function deleteData(){
                     message: "Enter Employee ID #: "
                 },
             ]).then(function(answer){
-                con.query("DELETE FROM employee WHERE ? ",[
+                connection.query("DELETE FROM employee WHERE ? ",[
                     {id: answer.id}
                 ], function(error){
                     if (error) throw error;
@@ -302,7 +303,7 @@ function deleteData(){
                     message: "Enter Role ID #: "
                 },
             ]).then(function(answer){
-                con.query("DELETE FROM role WHERE ? ",[
+                connection.query("DELETE FROM role WHERE ? ",[
                     {id: answer.id}
                 ], function(error){
                     if (error) throw error;
@@ -319,7 +320,7 @@ function deleteData(){
                     message: "Enter Department ID #: "
                 },
             ]).then(function(answer){
-                con.query("DELETE FROM department WHERE ? ",[
+                connection.query("DELETE FROM department WHERE ? ",[
                     {id: answer.id}
                 ], function(error){
                     if (error) throw error;
