@@ -81,7 +81,7 @@ function addData() {
             ]
         }
     ]).then(function (answer) {
-        if (answer.addOption === "Add Employee") {
+        if (answer.addOptions === "Add Employee") {
             inquirer.prompt([
                 {
                     name: "first_name",
@@ -115,7 +115,7 @@ function addData() {
                     }
                 )
             })
-        } else if (answer.addOption === "Add Role") {
+        } else if (answer.addOptions === "Add Role") {
             inquirer.prompt([
                 {
                     name: "title",
@@ -149,7 +149,7 @@ function addData() {
                     }
                 )
             })
-        } else if (answer.addOption === "Add Department") {
+        } else if (answer.addOptions === "Add Department") {
             inquirer.prompt([
                 {
                     name: "name",
@@ -169,7 +169,7 @@ function addData() {
                     }
                 )
             })
-        } else if (answer.addOption === "Exit"){
+        } else if (answer.addOptions === "Exit"){
             getUserInput();
         }
     });
@@ -210,7 +210,7 @@ function viewData() {
                 });
                 break;
             case "View All Employees, Roles, Departments":
-                connection.query("SELECT e.id, e.first_name, e.last_name, r.title, r.salary, d.name FROM employee e INNER JOIN role r on e.roles_id = r.id INNER JOIN department d on r.department_id = d.id ORDER BY d.name;", function (err, result) {
+                connection.query("SELECT e.id, e.first_name, e.last_name, r.title, r.salary, d.name FROM employee e INNER JOIN role r on e.role_id = r.id INNER JOIN department d on r.department_id = d.id ORDER BY d.name;", function (err, result) {
                     console.table(result);
                     getUserInput();
                 })
@@ -256,7 +256,7 @@ function updateData(){
                 ],
                 function(error){
                     if (error) throw error;
-                    console.log(`Updated employee with id ${answer.id} to role ${answer.roles_id}`)
+                    console.log(`Updated employee with id ${answer.id} to role ${answer.role_id}`)
                     getUserInput();
                 });
             });
